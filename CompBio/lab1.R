@@ -1,4 +1,4 @@
-
+apes <- read_table("orangutanCSV.csv")
 apes[apes$location == "Borneo",]
 
 males <- apes[apes$sex == "male",]

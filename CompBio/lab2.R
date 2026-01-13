@@ -66,3 +66,14 @@ lines(density(norm4), col = "green")
 use_git_config(user.name = "Tanvijain29", user.email = "tanvi.29701@gmail.com")
 use_git()
 options("install.lock"=FALSE)
+
+
+
+
+
+
+
+
+
+
+

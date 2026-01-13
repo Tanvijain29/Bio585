@@ -1,13 +1,9 @@
 options("install.lock"=FALSE)
 
-
 library(keras)
 library(tensorflow)
-library(reticulate)
-
 
 reticulate::install_python()
-
 
 keras::install_keras() 
 
@@ -20,7 +16,7 @@ dim(train_images)
 c(test_images, test_labels) %<-% fashion_mnist$test
 dim(test_images)
 
-class_names<- c("T-Shirt", "Pants", "Sweater", "Dress", "Coat", "Sandals", "Shirt", "Sneakers", "Bag", "Boots")
+class_names<- list(c("T-Shirt", "Pants", "Sweater", "Dress", "Coat", "Sandals", "Shirt", "Sneakers", "Bag", "Boots"))
 
 class_names
 
@@ -127,67 +123,4 @@ colnames(test_pred_lab) = c("Observed","Predicted")
 table(as.data.frame(test_pred_lab))
 corrplot::corrplot(table(as.data.frame(test_pred_lab)),
                    is.corr=F,method="color")
-
-
-
-predictions_test2 <- model %>% predict(train_images)
-predictions_test_max2 = max.col(predictions_test2)
-train_labels1 = train_labels+1
-test_pred_lab2 = cbind(train_labels1,predictions_test_max2)
-colnames(test_pred_lab2) = c("Observed","Predicted")
-table(as.data.frame(test_pred_lab2))
-corrplot::corrplot(table(as.data.frame(test_pred_lab2)),
-                   is.corr=F,method="color")
-
-test_matrix<- as.data.frame(test_pred_lab)
-
-
-?par
-train_matrix<- as.data.frame(test_pred_lab2)
-
-
-
-TrainData <- read_excel("GitHub/Bio585/CompBio/TrainData.xlsx")
-TestData <- read_excel("GitHub/Bio585/CompBio/TestData.xlsx")
-
-Fscore<- NULL
-
-for (i in 1:10) {
- TP<- TrainData[i, i]
- FP<- sum(TrainData[,i])-TP
- FN<- sum(TrainData[i, ])-TP
- TN<- sum(TrainData)- TP -FP-FN
-
- Precision[i]<- TP/(TP + FP)
- Recall[i]<- TP/(TP+FN)
- Accuracy[i]<- (TP + TN)/sum(TrainData) 
- Fscore[i] <- 2 * (Precision[i] * Recall[i] )/ (Precision[i] + Recall[i])
-
-}
-
-print(Precision)
-print(Recall)
-print(Accuracy)
-print(Fscore)
-
-TestData[i, i]
-for (i in 1:10) {
-  TP<- TestData[i, i]
-  FP<- sum(TestData[,i])-TP
-  FN<- sum(TestData[i, ])-TP
-  TN<- sum(TestData)- TP -FP-FN
-  
-  Precision[i]<- TP/(TP + FP)
-  Recall[i]<- TP/(TP+FN)
-  Accuracy[i]<- (TP + TN)/sum(TestData)
-  Fscore[i]<- (2 * Precision[i] * Recall[i] )/ (Precision[i] + Recall[i])
-
-}
-
-print(Precision)
-print(Recall)
-print(Accuracy)
-print(Fscore)
-
-
 
